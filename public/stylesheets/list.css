@@ -41,3 +41,17 @@
            font-family: "Arial";
            margin-left: 5px;
        }
+       input[type=button]{
+           box-shadow:inset 0px 1px 0px 0px #000000;
+           background-color:#53aed9;
+           border-radius:20px;
+        border:1px solid #120f12;
+        display:inline-block;
+        color:#ffffff;
+        font-family:arial;
+        font-size:12px;
+        font-weight:bold;
+        padding:3px 10px;
+        text-decoration:none;
+        text-shadow:1px 1px 0px #000000;
+       }

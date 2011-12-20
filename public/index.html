@@ -9,48 +9,67 @@
         var numElements=3;
         var count = 0;
        $(function startup(){
-
+             //initialize table
             $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=1 /><text>Get Groceries</text></td></tr>");
             $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=2 /><text>Take Final</text></td></tr>");
             $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=3 /><text>Buy Presents</text></td></tr>");
 
-           $('input[type=checkbox]').bind('click', function(){
+           //set live function for checkboxes in the list table
+           $('table#listTable input[type=checkbox]').live('click', function(){
                $('table#delTable').append("<tr><td><input type=checkbox name=listItem value=3 checked/><text>"+$(this).siblings('text').text()+"</text></td></tr>");
 
                    $(this).siblings('text').remove();
+                   $(this).parents('tr').remove();
+                   $(this).remove();
+
+           });
+
+           //set live function for checkboxes in the deleted table
+           $('table#delTable input[type=checkbox]').live('click', function(){
+               $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=3/><text>"+$(this).siblings('text').text()+"</text></td></tr>");
+
+                   $(this).siblings('text').remove();
+                   $(this).parents('tr').remove();
                    $(this).remove();
            });
+
            $('div#editDiv').hide();
            $('form#addItem').hide();
+
+           //Set add button function
            $('input.addButton').bind('click',function(){
                numElements++;
                $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=4 /><text>"+$('input#textAdd').val() +"</text></td></tr>");
-                 $('input[type=checkbox]').bind('click', function(){
-               $('table#delTable').append("<tr><td><input type=checkbox name=listItem value=3 checked/><text>"+$(this).siblings('text').text()+"</text></td></tr>");
-                   $(this).siblings('text').remove();
-                   $(this).remove();
-           });
                  $('input#textAdd').val("");
                  $('form#addItem').hide();
+               $('a#newItem').show();
            });
 
+           //set close button function
            $('input.closeAdd').bind('click', function(){
                $('form#addItem').hide();
+               $('a#newItem').show();
            });
 
+           //set the function for the add new item link
            $('a#newItem').bind('click',function(){
-
+                    $('a#newItem').hide();
                 $('form#addItem').show();
            });
 
+           //set function for the edit list link
            $('a#edit').bind('click',function(){
                $('div#normal').hide();
                $('a#edit').hide();
                $('div#editDiv').show();
+
+               //Copy over the current list items to the edit form
                 $('table#listTable td input').each(function(){
                     $('table#editTable').append("<tr><td><input type=text name=listForm value='"+ $('table#listTable tr').eq(count).text()+"' /><img class=deleteImg src=images/x.jpg></td></tr>");
                      count++;
                 });
+
+               //bind a delete function to items in the list
                $('img.deleteImg').bind('click', function(){
                    $(this).siblings('input').remove();
                    $(this).remove();
@@ -58,6 +77,7 @@
                count=0;
            });
 
+           //set the function to save the edited list
            $('input.saveButton').bind('click', function(){
                 $('table#listTable tr').remove();
                $('table#editTable td input').each(function(){
@@ -72,6 +92,7 @@
                count=0;
            });
 
+           //set the function to cancel the list edit
            $('input.cancelButton').bind('click', function(){
              $('div#editDiv').hide();
                $('div#normal').show();
@@ -91,25 +112,30 @@
 
     <h1>My List</h1>
       <div id=normal>
-                  <table id=listTable></table>
-  <form>
+     <table id=listTable></table>
+      <form>
 
       </form>
           <br/>
-    <a id=newItem class=canClick>Add Another Item</a>
-    <form id=addItem>
-        <input type="text" id=textAdd name="addNewItem" /> <br />
-         <input class=addButton type="button" value="+ Add this item">
-         <input class=closeAdd type="button" value="Close">
-    </form>
-          <br /> <br/>
+
+         <a id=newItem class=canClick>Add Another Item</a>
+        <form id=addItem>
+            <input type="text" id=textAdd name="addNewItem" /> <br />
+            <input class=addButton type="button" value="+ Add this item">
+            <input class=closeAdd type="button" value="Close">
+        </form>
+          <br />
+
           <h5>Completed Items:</h5>
           <table id=delTable></table>
-       </div> <div id=editDiv> <form>
-  <table id=editTable></table></form>
-        <br />
-         <input class=saveButton type="button" value="Save list">
-         <input class=cancelButton type="button" value="Cancel">
-        </div>
+       </div>
+
+    <div id=editDiv>
+        <form>
+            <table id=editTable></table></form>
+            <br />
+                <input class=saveButton type="button" value="Save list">
+                <input class=cancelButton type="button" value="Cancel">
+    </div>
   </body>
 </html>
