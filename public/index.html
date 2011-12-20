@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Brittany's Awesome List Editor</title>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/list.css"/>
+    <script type="text/javascript" src="javascripts/jquery-1.4.js"></script>
+    <script type="text/javascript">
+        var numElements=3;
+        var count = 0;
+       $(function startup(){
+
+            $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=1 /><text>Get Groceries</text></td></tr>");
+            $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=2 /><text>Take Final</text></td></tr>");
+            $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=3 /><text>Buy Presents</text></td></tr>");
+
+           $('input[type=checkbox]').bind('click', function(){
+               $('table#delTable').append("<tr><td><input type=checkbox name=listItem value=3 checked/><text>"+$(this).siblings('text').text()+"</text></td></tr>");
+
+                   $(this).siblings('text').remove();
+                   $(this).remove();
+           });
+           $('div#editDiv').hide();
+           $('form#addItem').hide();
+           $('input.addButton').bind('click',function(){
+               numElements++;
+               $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=4 /><text>"+$('input#textAdd').val() +"</text></td></tr>");
+                 $('input[type=checkbox]').bind('click', function(){
+               $('table#delTable').append("<tr><td><input type=checkbox name=listItem value=3 checked/><text>"+$(this).siblings('text').text()+"</text></td></tr>");
+                   $(this).siblings('text').remove();
+                   $(this).remove();
+           });
+                 $('input#textAdd').val("");
+                 $('form#addItem').hide();
+           });
+
+           $('input.closeAdd').bind('click', function(){
+               $('form#addItem').hide();
+           });
+
+           $('a#newItem').bind('click',function(){
+
+                $('form#addItem').show();
+           });
+
+           $('a#edit').bind('click',function(){
+               $('div#normal').hide();
+               $('a#edit').hide();
+               $('div#editDiv').show();
+                $('table#listTable td input').each(function(){
+                    $('table#editTable').append("<tr><td><input type=text name=listForm value='"+ $('table#listTable tr').eq(count).text()+"' /><img class=deleteImg src=images/x.jpg></td></tr>");
+                     count++;
+                });
+               $('img.deleteImg').bind('click', function(){
+                   $(this).siblings('input').remove();
+                   $(this).remove();
+               });
+               count=0;
+           });
+
+           $('input.saveButton').bind('click', function(){
+                $('table#listTable tr').remove();
+               $('table#editTable td input').each(function(){
+                    $('table#listTable').append("<tr><td><input type=checkbox name=listItem value=1 />"+ $('table#editTable tr input').eq(count).val()+"</td></tr>");
+                     count++;
+                });
+
+             $('div#editDiv').hide();
+               $('div#normal').show();
+               $('a#edit').show();
+               $('table#editTable tr').remove();
+               count=0;
+           });
+
+           $('input.cancelButton').bind('click', function(){
+             $('div#editDiv').hide();
+               $('div#normal').show();
+               $('a#edit').show();
+               $('table#editTable tr').remove();
+
+           });
+       });
+
+
+    </script>
+  </head>
+  <header> <nav> <img src=images/check.jpg>
+    <a id=edit>Edit this list</a>
+  </nav></header>
+  <body>
+
+    <h1>My List</h1>
+      <div id=normal>
+                  <table id=listTable></table>
+  <form>
+
+      </form>
+          <br/>
+    <a id=newItem class=canClick>Add Another Item</a>
+    <form id=addItem>
+        <input type="text" id=textAdd name="addNewItem" /> <br />
+         <input class=addButton type="button" value="+ Add this item">
+         <input class=closeAdd type="button" value="Close">
+    </form>
+          <br /> <br/>
+          <h5>Completed Items:</h5>
+          <table id=delTable></table>
+       </div> <div id=editDiv> <form>
+  <table id=editTable></table></form>
+        <br />
+         <input class=saveButton type="button" value="Save list">
+         <input class=cancelButton type="button" value="Cancel">
+        </div>
+  </body>
+</html>
